@@ -38,6 +38,13 @@ async function run(){
     const result = await completedTasksCollection.insertOne(tasks);
     res.send(result);
 });
+ // get api for complete task 
+app.get('/tasks', async (req, res) => {
+    const query = {};
+    const cursor = completedTasksCollection.find(query);
+    const tasks = await cursor.toArray();
+    res.send(tasks);
+});
 
     }
     finally{
