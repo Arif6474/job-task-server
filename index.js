@@ -17,12 +17,20 @@ async function run(){
     try{
         await client.connect();
         const tasksCollection = client.db('daily-tasks').collection('task');
-        //post
+        //post api for daily task
         app.post('/task', async (req, res) =>{
             const task = req.body;
             const result= await tasksCollection.insertOne(task);
             res.send(result);
-         })
+         });
+
+ // get api for daily task 
+ app.get("/task", async (req, res) => {
+    const query = {};
+    const cursor = tasksCollection.find(query);
+    const tasks = await cursor.toArray();
+    res.send(tasks);
+  });
 
     }
     finally{
