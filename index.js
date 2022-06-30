@@ -17,6 +17,7 @@ async function run(){
     try{
         await client.connect();
         const tasksCollection = client.db('daily-tasks').collection('task');
+        const completedTasksCollection = client.db('daily-tasks').collection('completedTask');
         //post api for daily task
         app.post('/task', async (req, res) =>{
             const task = req.body;
@@ -31,6 +32,12 @@ async function run(){
     const tasks = await cursor.toArray();
     res.send(tasks);
   });
+   //post api for single task
+  app.post('/tasks', async(req, res) =>{
+    const tasks = req.body;
+    const result = await completedTasksCollection.insertOne(tasks);
+    res.send(result);
+});
 
     }
     finally{
